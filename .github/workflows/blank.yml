@@ -12,14 +12,14 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   # workflow_call:               
-  workflow_dispatch:            
-      inputs:
-        target_service:
-          description: 'Input a service name test'
-          required: true
-        target_version:
-          description: 'Input a version v1.0.0'
-          required: true    
+  # workflow_dispatch:            
+   #   inputs:
+    #    target_service:
+     #     description: 'Input a service name test'
+      #    required: true
+       # target_version:
+        #  description: 'Input a version v1.0.0'
+         # required: true    
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -44,18 +44,9 @@ jobs:
           echo test, and deploy your project.
           
       - name: Trigger Workflow in Another Repository
-        env:
-            USER_TOKEN_KEY: ${{ secrets.USER_TOKEN_KEY}}
-            repo_owner: "yakin68" 
-            repo_name: "github-actions"  
-            event_type: "trigger-workflow" 
-            service: ${{ github.event.inputs.target_service }}
-            version: ${{ github.event.inputs.target_version }}                 
-        run: |      
-          curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.USER_TOKEN_KEY }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-           https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
-            -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"service\": \"$service\", \"version\": \"$version\", \"unit\": false, \"integration\": true}}"                        
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.USER_TOKEN_KEY }}  # Hedef depoya erişim için kullanılan erişim belirteci
+          repository: yakin68/github-actions  # İkinci repo
+          event-type: trigger-deployment  # Tetiklenecek olay türü
+          client-payload: '{"service": "example-service", "version": "1.0.0"}'  # İkinci iş akışı için isteğe bağlı veri
