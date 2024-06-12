@@ -49,8 +49,8 @@ jobs:
             repo_owner: "yakin68" 
             repo_name: "github-actions"  
             event_type: "trigger-workflow" 
-            service: ${{ github.event.inputs.target_service }}"
-            version: "${{ github.event.inputs.target_version }}"                  
+            service: ${{ github.event.inputs.target_service }}
+            version: ${{ github.event.inputs.target_version }}                 
         run: |      
           curl -L \
             -X POST \
