@@ -44,7 +44,7 @@ jobs:
           echo test, and deploy your project.
           
       - name: Trigger Workflow in Another Repository
-        uses: peter-evans/repository-dispatch@v1
+     
         env:
             USER_TOKEN_KEY: ${{ secrets.USER_TOKEN_KEY }}
         run: |
