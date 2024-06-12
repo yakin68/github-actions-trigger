@@ -44,12 +44,10 @@ jobs:
           echo test, and deploy your project.
           
       - name: Trigger Workflow in Another Repository
-     
+        uses: peter-evans/repository-dispatch@v1
         env:
             USER_TOKEN_KEY: ${{ secrets.USER_TOKEN_KEY }}
-        run: |
-            export USER_TOKEN_KEY=$USER_TOKEN_KEY
-            echo "USER_TOKEN_KEY=$(echo $USER_TOKEN_KEY)" >> $GITHUB_ENV               
+            
         with:
           token: ${{ secrets.USER_TOKEN_KEY }}  # Hedef depoya erişim için kullanılan erişim belirteci
           repository: yakin68/github-actions  # İkinci repo
