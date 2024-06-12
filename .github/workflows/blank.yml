@@ -45,8 +45,7 @@ jobs:
           
       - name: Trigger Workflow in Another Repository
         uses: peter-evans/repository-dispatch@v1
-        env:
-            USER_TOKEN_KEY: ${{ secrets.USER_TOKEN_KEY}
+
         with:
           token: ${{ secrets.USER_TOKEN_KEY }}  # Hedef depoya erişim için kullanılan erişim belirteci
           repository: yakin68/github-actions  # İkinci repo
