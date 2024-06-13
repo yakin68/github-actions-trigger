@@ -20,6 +20,7 @@ jobs:
         with:
           github-token: ${{ secrets.PAT }}
           script: |
+            await new Promise(resolve => setTimeout(resolve, 60000)); // 2 dakika (300 saniye) bekle
             await github.rest.actions.createWorkflowDispatch({
               owner: 'yakin68',
               repo: 'github-actions',
