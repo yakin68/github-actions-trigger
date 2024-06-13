@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_run:
+    workflows: [repob-workflow]
+    types:
+      - completed
+
+jobs:
+  trigger-repob-workflow:
+    if: github.event.workflow_run.conclusion == 'success' # Run only when workflow run has succeeded, i.e. all jobs have succeeded
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Repo B Workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'yakin68',
+              repo: 'github-actions',
+              workflow_id: 'repob-workflow.yml',
+              ref: 'main'
+            })
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
