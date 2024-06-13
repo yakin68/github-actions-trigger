@@ -15,19 +15,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Repo B Workflow
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.PAT }}
-          script: |
-            await new Promise(resolve => setTimeout(resolve, 60000)); // 2 dakika (300 saniye) bekle
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'yakin68',
-              repo: 'github-actions',
-              workflow_id: 'repob-workflow.yml',
-              ref: 'main'
-            })
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -38,3 +25,16 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: Trigger Repo B Workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT }}
+          script: |
+            await new Promise(resolve => setTimeout(resolve, 60000)); // 2 dakika (120 saniye) bekle
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'yakin68',
+              repo: 'github-actions',
+              workflow_id: 'repob-workflow.yml',
+              ref: 'main'
+            })          
