@@ -59,13 +59,3 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           
-      - name: Trigger Workflow in Another Repository
-        uses: peter-evans/repository-dispatch@v1
-        env:
-            USER_TOKEN_KEY: ${{ secrets.USER_TOKEN_KEY }}
-            
-        with:
-          token: ${{ secrets.USER_TOKEN_KEY }}  # Hedef depoya erişim için kullanılan erişim belirteci
-          repository: yakin68/github-actions  # İkinci repo
-          event-type: trigger-deployment  # Tetiklenecek olay türü
-          client-payload: '{"service": "example-service", "version": "1.0.0"}'  # İkinci iş akışı için isteğe bağlı veri
