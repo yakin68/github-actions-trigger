@@ -28,13 +28,24 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  trigger-repob-workflow:
+    if: github.event.workflow_run.conclusion == 'success' # Run only when workflow run has succeeded, i.e. all jobs have succeeded
   # This workflow contains a single job called "build"
-  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT }} # Fine-grained GitHub PAT that was saved as repository secret
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'yakin68',
+              repo: 'github-actions',
+              workflow_id: 'repob-workflow.yml',
+              ref: 'main'
+            })    
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
